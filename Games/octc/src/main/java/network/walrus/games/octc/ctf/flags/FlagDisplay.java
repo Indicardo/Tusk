@@ -3,6 +3,7 @@ package network.walrus.games.octc.ctf.flags;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -91,7 +92,9 @@ class FlagDisplay extends DisplayPane {
     GroupsManager manager = holder.getFacetRequired(GroupsManager.class);
     int rows = manager.getGroups().size() * (2 + facet.getFlags().size());
 
-    for (Group group : manager.getGroups()) {
+    for (Iterator<? extends Group> i = manager.getGroups().iterator(); i.hasNext();) {
+      Group group = i.next();
+
       if (!(group instanceof Team)) {
         continue;
       }
@@ -123,7 +126,10 @@ class FlagDisplay extends DisplayPane {
           addElement(createRenderable(flag));
         }
       }
-      addSpacer();
+
+      if(i.hasNext()) {
+        addSpacer();
+      }
     }
   }
 

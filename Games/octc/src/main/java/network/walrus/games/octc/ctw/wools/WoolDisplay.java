@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -109,7 +110,9 @@ class WoolDisplay extends DisplayPane {
     }
 
     GroupsManager manager = holder.getFacetRequired(GroupsManager.class);
-    for (Group group : manager.getGroups()) {
+    for (Iterator<? extends Group> i = manager.getGroups().iterator(); i.hasNext();) {
+      Group group = i.next();
+
       if (!(group instanceof Team)) {
         continue;
       }
@@ -134,7 +137,10 @@ class WoolDisplay extends DisplayPane {
             addElement(createRenderable(wool));
           }
         }
-        addSpacer();
+
+        if(i.hasNext()) {
+          addSpacer();
+        }
       }
     }
   }

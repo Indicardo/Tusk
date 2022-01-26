@@ -3,6 +3,8 @@ package network.walrus.games.octc.destroyables;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -120,7 +122,9 @@ public class DestroyablesDisplay extends DisplayPane {
         }
       }
     }
-    for (Team team : teamObjectives.keySet()) {
+    for (Iterator<? extends Team> i = teamObjectives.keySet().iterator(); i.hasNext();) {
+      Team team = i.next();
+
       // Create header
       Localizable teamName = team.getColoredName();
       Localizable header;
@@ -139,7 +143,10 @@ public class DestroyablesDisplay extends DisplayPane {
       for (DestroyableObjective objective : teamObjectives.get(team)) {
         addElement(destroyRenderable.computeIfAbsent(objective, this::createRenderable));
       }
-      addSpacer();
+
+      if(i.hasNext()) {
+        addSpacer();
+      }
     }
   }
 
